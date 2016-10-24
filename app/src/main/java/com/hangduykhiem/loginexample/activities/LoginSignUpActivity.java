@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Starting Activity
- *
+ * <p>
  * Created by hangduykhiem on 10/24/16.
  */
 public class LoginSignUpActivity extends AppCompatActivity {
@@ -47,14 +47,17 @@ public class LoginSignUpActivity extends AppCompatActivity {
      */
     public void navigateToLogin() {
         fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
+        FragmentTransaction ft = fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        R.anim.slide_in_left, R.anim.slide_out_right);
         hideAllVisibleFragment(ft);
-        if (!loginFragment.isAdded()){
+        if (!loginFragment.isAdded()) {
             ft.add(R.id.a_login_content, loginFragment, loginFragment.getClass().getName());
         } else {
             ft.show(loginFragment);
         }
-        ft.addToBackStack(null).commit();
+        ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
+                .addToBackStack(null).commit();
     }
 
     /**
@@ -62,10 +65,12 @@ public class LoginSignUpActivity extends AppCompatActivity {
      */
     public void navigateToSignUp() {
         fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
+        FragmentTransaction ft = fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        R.anim.slide_in_left, R.anim.slide_out_right);
         hideAllVisibleFragment(ft);
-        if (!loginFragment.isAdded()){
-            ft.add(R.id.a_login_content, signUpFragment , signUpFragment.getClass().getName());
+        if (!loginFragment.isAdded()) {
+            ft.add(R.id.a_login_content, signUpFragment, signUpFragment.getClass().getName());
         } else {
             ft.show(signUpFragment);
         }
@@ -75,21 +80,22 @@ public class LoginSignUpActivity extends AppCompatActivity {
 
     /**
      * Get All Visible Fragment
+     *
      * @return {@link List} of all visible {@link Fragment}
      */
-    private List<Fragment> getVisibleFragments(){
+    private List<Fragment> getVisibleFragments() {
 
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
         List<Fragment> result = new ArrayList<>(3);
 
         // Add each visible fragment to the result
-        if (chooseFragment.isVisible()){
+        if (chooseFragment.isVisible()) {
             result.add(chooseFragment);
         }
-        if (loginFragment.isVisible()){
+        if (loginFragment.isVisible()) {
             result.add(loginFragment);
         }
-        if (signUpFragment.isVisible()){
+        if (signUpFragment.isVisible()) {
             result.add(signUpFragment);
         }
 
@@ -101,8 +107,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
      *
      * @return FragmentTransaction, so that the chain of FragmentTransaction can continue
      */
-    private FragmentTransaction hideAllVisibleFragment(FragmentTransaction fragmentTransaction){
-        for (Fragment fragment: getVisibleFragments()){
+    private FragmentTransaction hideAllVisibleFragment(FragmentTransaction fragmentTransaction) {
+        for (Fragment fragment : getVisibleFragments()) {
             fragmentTransaction.hide(fragment);
         }
         return fragmentTransaction;
